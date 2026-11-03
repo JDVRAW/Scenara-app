@@ -6,17 +6,17 @@ import { colors, StillName, stills } from '@/theme/tokens';
 
 type Props = {
   name: StillName;
-  /** Proporción ancho/alto. 2.39 es el formato anamórfico de cine. */
+  /** Width/height ratio. 2.39 is the anamorphic cinema format. */
   ratio?: number;
   style?: StyleProp<ViewStyle>;
-  /** Oscurece la parte inferior para poner texto encima. */
+  /** Darkens the bottom so text can sit on top. */
   scrim?: boolean;
   children?: ReactNode;
 };
 
 /**
- * Marcador de imagen cinematográfica. Cuando haya fotos reales,
- * sustituir el degradado por <Image> de expo-image con el mismo contenedor.
+ * Cinematic image placeholder. Once real photos exist,
+ * swap the gradient for an expo-image <Image> in the same container.
  */
 export function Still({ name, ratio, style, scrim, children }: Props) {
   const c = stills[name] as unknown as [string, string, ...string[]];

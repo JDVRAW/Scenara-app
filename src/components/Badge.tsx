@@ -24,7 +24,7 @@ export function Tag({ label }: { label: string }) {
 
 export function VerifiedMark() {
   return (
-    <View style={styles.verified} accessibilityLabel="Perfil verificado">
+    <View style={styles.verified} accessibilityLabel="Verified profile">
       <Text style={styles.check} tone="onAccent">✓</Text>
     </View>
   );

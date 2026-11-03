@@ -8,9 +8,9 @@ import { colors, fonts, radius, spacing } from '@/theme/tokens';
 export default function ConnectScreen() {
   return (
     <Screen>
-      <ScreenHeader title="Conectar" icon="create-outline" iconLabel="Nuevo mensaje" />
+      <ScreenHeader title="Connect" icon="create-outline" iconLabel="New message" />
 
-      <SectionHeader title={`Solicitudes · ${requests.length}`} />
+      <SectionHeader title={`Requests · ${requests.length}`} />
       <View style={{ gap: spacing.xs, marginTop: -10 }}>
         {requests.map((r) => (
           <View key={r.creator.id} style={styles.req}>
@@ -19,12 +19,12 @@ export default function ConnectScreen() {
               <Text variant="callout" style={{ fontFamily: fonts.semibold }}>{r.creator.name}</Text>
               <Text variant="caption">{r.note}</Text>
             </View>
-            <Button label="Aceptar" doneLabel="Aceptada" variant="gold" size="sm" />
+            <Button label="Accept" doneLabel="Accepted" variant="gold" size="sm" />
           </View>
         ))}
       </View>
 
-      <SectionHeader title="Mensajes" action="Archivados" />
+      <SectionHeader title="Messages" action="Archived" />
       <View style={{ marginTop: -10 }}>
         {messages.map((m) => (
           <View key={m.creator.id} style={styles.row}>
@@ -35,7 +35,7 @@ export default function ConnectScreen() {
             </View>
             <View style={styles.meta}>
               <Text variant="caption" style={{ fontSize: 11 }}>{m.time}</Text>
-              {m.unread && <View style={styles.dot} accessibilityLabel="Sin leer" />}
+              {m.unread && <View style={styles.dot} accessibilityLabel="Unread" />}
             </View>
           </View>
         ))}

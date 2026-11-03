@@ -1,6 +1,6 @@
 /**
  * SCENARA · Brand direction v1.0
- * Fuente única de verdad para color, tipografía, espaciado y radios.
+ * Single source of truth for color, type, spacing and radii.
  */
 import { Platform, TextStyle } from 'react-native';
 
@@ -13,7 +13,7 @@ export const palette = {
   bone: '#F5F5F5',
 } as const;
 
-/** Roles semánticos. Las pantallas usan estos, no la paleta directa. */
+/** Semantic roles. Screens use these, never the raw palette. */
 export const colors = {
   background: palette.onyx,
   surface: palette.charcoal,
@@ -33,8 +33,8 @@ export const spacing = { xxs: 4, xs: 8, sm: 12, md: 16, lg: 24, xl: 32, xxl: 48,
 export const radius = { sm: 8, md: 14, lg: 22, pill: 999 } as const;
 
 /**
- * SF Pro Display para titulares (es la fuente del sistema en iOS).
- * Inter para interfaz y textos; también es el respaldo de titulares en Android.
+ * SF Pro Display for headlines (the iOS system font).
+ * Inter for UI and body text; also the headline fallback on Android and web.
  */
 const display = Platform.select({
   ios: 'System',
@@ -65,8 +65,8 @@ export const type = {
 export type TypeVariant = keyof typeof type;
 
 /**
- * Fotogramas simulados mientras no hay fotografía real.
- * Cada uno es un degradado de dirección cinematográfica.
+ * Simulated film stills until real photography exists.
+ * Each one is a cinematic gradient.
  */
 export const stills = {
   ember: ['#c98a4b', '#5a2f1a', '#120b08'],

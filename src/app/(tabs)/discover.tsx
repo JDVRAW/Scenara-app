@@ -6,7 +6,7 @@ import { Chips, Screen, ScreenHeader, SectionHeader, Still, Text } from '@/compo
 import { creators, disciplines } from '@/data/mock';
 import { colors, fonts, radius, spacing } from '@/theme/tokens';
 
-/** Discover · descubrir creadores */
+/** Discover · find creators */
 export default function DiscoverScreen() {
   const [query, setQuery] = useState('');
   const featured = creators[1];
@@ -16,28 +16,28 @@ export default function DiscoverScreen() {
 
   return (
     <Screen>
-      <ScreenHeader title="Descubrir" icon="options-outline" iconLabel="Filtros" />
+      <ScreenHeader title="Discover" icon="options-outline" iconLabel="Filters" />
       <View style={styles.search}>
         <Ionicons name="search" size={16} color={colors.textSecondary} />
         <TextInput
           value={query}
           onChangeText={setQuery}
-          placeholder="Busca por oficio, ciudad o estilo"
+          placeholder="Search by craft, city or style"
           placeholderTextColor={colors.textSecondary}
           style={styles.input}
         />
       </View>
-      <Chips label="Disciplinas" options={disciplines} />
+      <Chips label="Disciplines" options={disciplines} />
 
       <Still name={featured.still} scrim style={styles.feature}>
-        <Text variant="label" tone="accent">Creador de la semana</Text>
+        <Text variant="label" tone="accent">Creator of the week</Text>
         <Text variant="title1" style={{ fontSize: 22 }}>{featured.name}</Text>
         <Text variant="caption" tone="primary" style={{ opacity: 0.75 }}>
-          {featured.role} · {featured.city} · 3 cortos en festivales este año
+          {featured.role} · {featured.city} · 3 festival shorts this year
         </Text>
       </Still>
 
-      <SectionHeader title="En tendencia cerca de ti" action="Mapa" />
+      <SectionHeader title="Trending near you" action="Map" />
       <View style={styles.grid}>
         {nearby.map((c) => (
           <View key={c.id} style={styles.card}>
@@ -46,7 +46,7 @@ export default function DiscoverScreen() {
             <Text variant="caption">{c.role} · {c.city}</Text>
           </View>
         ))}
-        {nearby.length === 0 && <Text variant="body" tone="secondary">Nadie coincide con “{query}”.</Text>}
+        {nearby.length === 0 && <Text variant="body" tone="secondary">No one matches “{query}”.</Text>}
       </View>
     </Screen>
   );

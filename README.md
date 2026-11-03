@@ -1,34 +1,34 @@
 # SCENARA
 
-The creative network for visual storytellers. App en React Native con Expo (iOS, Android y web).
+The creative network for visual storytellers. React Native app built with Expo (iOS, Android and web).
 
-## Arrancar
+## Getting started
 
 ```bash
 npm install
-npx expo start        # abre en Expo Go, simulador iOS/Android o navegador (tecla w)
+npx expo start        # open in Expo Go, an iOS/Android simulator, or the browser (press w)
 ```
 
-## Estructura
+## Structure
 
 ```
 src/
-  theme/tokens.ts     Brand direction v1.0: paleta, roles de color, tipografía, espaciado, radios
-  components/         Piezas base: Text, Button, Chips, Still, Avatar, Badge, Screen
-  data/mock.ts        Datos de ejemplo (sustituir por la API)
+  theme/tokens.ts     Brand direction v1.0: palette, color roles, type, spacing, radii
+  components/         Base pieces: Text, Button, Chips, Still, Avatar, Badge, Screen
+  data/mock.ts        Sample data (replace with the API)
   app/
-    _layout.tsx       Carga de fuentes Inter y tema oscuro
+    _layout.tsx       Inter font loading and dark theme
     (tabs)/
-      index.tsx         Showcase · portafolio profesional
-      discover.tsx      Discover · descubrir creadores
+      index.tsx         Showcase · professional portfolio
+      discover.tsx      Discover · find creators
       connect.tsx       Connect · networking
-      collaborate.tsx   Collaborate · formar equipos
-      opportunities.tsx Opportunities · trabajos y proyectos
+      collaborate.tsx   Collaborate · build crews
+      opportunities.tsx Opportunities · jobs and projects
 ```
 
-## Reglas de marca en código
+## Brand rules in code
 
-- Las pantallas usan `colors.*` (roles), nunca los hex sueltos.
-- Sand (`colors.accent`) solo para la acción principal, el estado activo y el reconocimiento. Una vez por pantalla como máximo.
-- Titulares con `variant="title1" | "title2" | "display"` (SF Pro Display en iOS, Inter en el resto). Interfaz y texto con Inter.
-- `Still` es un marcador de fotograma con degradado. Cuando haya fotografía real, se cambia por `expo-image` dentro del mismo contenedor.
+- Screens use `colors.*` (semantic roles), never raw hex values.
+- Sand (`colors.accent`) is reserved for the primary action, the active state and recognition. At most once per screen.
+- Headlines use `variant="title1" | "title2" | "display"` (SF Pro Display on iOS, Inter elsewhere). UI and body text use Inter.
+- `Still` is a gradient film-still placeholder. Once real photography exists, swap it for `expo-image` inside the same container.

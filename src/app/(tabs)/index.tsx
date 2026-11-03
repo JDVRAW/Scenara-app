@@ -6,7 +6,7 @@ import { Avatar, Badge, Button, Screen, SectionHeader, Still, Tag, Text, Verifie
 import { me } from '@/data/mock';
 import { colors, spacing } from '@/theme/tokens';
 
-/** Showcase · portafolio profesional */
+/** Showcase · professional portfolio */
 export default function ShowcaseScreen() {
   const insets = useSafeAreaInsets();
   return (
@@ -27,8 +27,8 @@ export default function ShowcaseScreen() {
           <Text variant="body" tone="secondary">{me.role} · {me.city}</Text>
         </View>
         <View style={styles.actions}>
-          <Button label="Conectar" doneLabel="Conectada" style={{ flex: 1 }} />
-          <Button label="Mensaje" variant="ghost" />
+          <Button label="Connect" doneLabel="Connected" style={{ flex: 1 }} />
+          <Button label="Message" variant="ghost" />
         </View>
       </View>
 
@@ -41,7 +41,7 @@ export default function ShowcaseScreen() {
         ))}
       </View>
 
-      <SectionHeader title="Reel destacado" action="Ver todo" />
+      <SectionHeader title="Featured reel" action="See all" />
       <View style={{ gap: 10 }}>
         <ReelItem {...me.reel[0]} ratio={2.39} play />
         <View style={styles.grid2}>
@@ -50,7 +50,7 @@ export default function ShowcaseScreen() {
         </View>
       </View>
 
-      <SectionHeader title="Créditos" />
+      <SectionHeader title="Credits" />
       <View>
         {me.credits.map((c) => (
           <View key={c.title} style={styles.credit}>
@@ -64,7 +64,7 @@ export default function ShowcaseScreen() {
         ))}
       </View>
 
-      <SectionHeader title="Equipo" />
+      <SectionHeader title="Gear" />
       <View style={styles.kit}>
         {me.kit.map((k) => <Tag key={k} label={k} />)}
       </View>

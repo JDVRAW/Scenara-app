@@ -9,7 +9,7 @@ import { Text } from './Text';
 
 type IconName = keyof typeof Ionicons.glyphMap;
 
-/** Contenedor de cada pestaña: fondo Onyx, área segura y scroll. */
+/** Container for every tab: Onyx background, safe area and scroll. */
 export function Screen({ children, edgeToEdgeTop }: { children: ReactNode; edgeToEdgeTop?: boolean }) {
   return (
     <SafeAreaView style={styles.safe} edges={edgeToEdgeTop ? [] : ['top']}>

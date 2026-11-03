@@ -4,14 +4,14 @@ import { Avatar, Button, Screen, ScreenHeader, Still, Text } from '@/components'
 import { project } from '@/data/mock';
 import { colors, radius, spacing } from '@/theme/tokens';
 
-/** Collaborate · formar equipos */
+/** Collaborate · build crews */
 export default function CollaborateScreen() {
   const filled = project.roles.filter((r) => r.who).length;
   const total = project.roles.length;
 
   return (
     <Screen>
-      <ScreenHeader title="Colaborar" icon="add" iconLabel="Nuevo proyecto" />
+      <ScreenHeader title="Collaborate" icon="add" iconLabel="New project" />
       <View style={styles.card}>
         <Still name="dusk" ratio={2.39} />
         <View style={styles.body}>
@@ -32,7 +32,7 @@ export default function CollaborateScreen() {
           </View>
 
           <Text variant="caption">
-            Equipo formado <Text variant="data" style={{ fontSize: 12 }}>{filled} de {total}</Text> · {project.dates}
+            Crew <Text variant="data" style={{ fontSize: 12 }}>{filled} of {total}</Text> · {project.dates}
           </Text>
           <View style={styles.track}><View style={[styles.fill, { width: `${(filled / total) * 100}%` }]} /></View>
 
@@ -48,7 +48,7 @@ export default function CollaborateScreen() {
                   <Text variant="callout">{r.role}</Text>
                   <Text variant="caption" style={{ fontSize: 11 }}>{r.who ? r.who.name : r.note}</Text>
                 </View>
-                {!r.who && <Button label="Invitar" doneLabel="Invitado" variant="ghost" size="sm" />}
+                {!r.who && <Button label="Invite" doneLabel="Invited" variant="ghost" size="sm" />}
               </View>
             ))}
           </View>

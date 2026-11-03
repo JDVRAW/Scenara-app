@@ -10,7 +10,7 @@ const tabs: { name: string; title: string; icon: IconName; iconActive: IconName 
   { name: 'discover', title: 'Discover', icon: 'compass-outline', iconActive: 'compass' },
   { name: 'connect', title: 'Connect', icon: 'chatbubbles-outline', iconActive: 'chatbubbles' },
   { name: 'collaborate', title: 'Collab', icon: 'people-outline', iconActive: 'people' },
-  { name: 'opportunities', title: 'Oportun.', icon: 'star-outline', iconActive: 'star' },
+  { name: 'opportunities', title: 'Jobs', icon: 'star-outline', iconActive: 'star' },
 ];
 
 export default function TabsLayout() {

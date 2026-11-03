@@ -11,7 +11,7 @@ type Props = {
   label: string;
   variant?: Variant;
   size?: 'md' | 'sm';
-  /** Si se indica, el botón alterna a este texto al tocarlo (Conectar → Conectada). */
+  /** When set, the button toggles to this label on press (Connect → Connected). */
   doneLabel?: string;
   onPress?: () => void;
   style?: ViewStyle;

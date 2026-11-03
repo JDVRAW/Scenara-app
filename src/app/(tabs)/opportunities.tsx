@@ -5,12 +5,12 @@ import { Badge, Button, Chips, Screen, ScreenHeader, Text } from '@/components';
 import { opportunities, opportunityFilters } from '@/data/mock';
 import { colors, fonts, radius, spacing } from '@/theme/tokens';
 
-/** Opportunities · trabajos y proyectos */
+/** Opportunities · jobs and projects */
 export default function OpportunitiesScreen() {
   return (
     <Screen>
-      <ScreenHeader title="Oportunidades" icon="bookmark-outline" iconLabel="Guardadas" />
-      <Chips label="Tipo de oportunidad" options={opportunityFilters} />
+      <ScreenHeader title="Opportunities" icon="bookmark-outline" iconLabel="Saved" />
+      <Chips label="Opportunity type" options={opportunityFilters} />
       {opportunities.map((o) => (
         <View key={o.id} style={[styles.card, o.featured && styles.featured]}>
           {o.featured && (
@@ -33,7 +33,7 @@ export default function OpportunitiesScreen() {
           </View>
           <View style={styles.foot}>
             {o.featured ? <Badge label={o.footer} /> : <Text variant="caption">{o.footer}</Text>}
-            <Button label="Aplicar" doneLabel="Aplicaste" variant={o.featured ? 'gold' : 'ghost'} size="sm" />
+            <Button label="Apply" doneLabel="Applied" variant={o.featured ? 'gold' : 'ghost'} size="sm" />
           </View>
         </View>
       ))}
