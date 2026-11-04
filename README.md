@@ -20,8 +20,9 @@ src/
   data/mock.ts        Sample data (replace with the API)
   app/
     _layout.tsx       Inter font loading and dark theme
+    index.tsx         Welcome page: what SCENARA is, how it works, the five functions
     (tabs)/
-      index.tsx         Showcase · professional portfolio
+      showcase.tsx      Showcase · professional portfolio
       discover.tsx      Discover · find creators
       connect.tsx       Connect · networking
       collaborate.tsx   Collaborate · build crews

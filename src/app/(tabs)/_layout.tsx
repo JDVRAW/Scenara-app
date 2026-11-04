@@ -6,7 +6,7 @@ import { useLayout } from '@/hooks/useLayout';
 import { colors, fonts } from '@/theme/tokens';
 
 const tabs: NavItem[] = [
-  { name: 'index', title: 'Showcase', label: 'Showcase', icon: 'film-outline', iconActive: 'film' },
+  { name: 'showcase', title: 'Showcase', label: 'Showcase', icon: 'film-outline', iconActive: 'film' },
   { name: 'discover', title: 'Discover', label: 'Discover', icon: 'compass-outline', iconActive: 'compass' },
   { name: 'connect', title: 'Connect', label: 'Connect', icon: 'chatbubbles-outline', iconActive: 'chatbubbles' },
   { name: 'collaborate', title: 'Collab', label: 'Collaborate', icon: 'people-outline', iconActive: 'people' },
