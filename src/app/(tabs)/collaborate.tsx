@@ -13,7 +13,7 @@ export default function CollaborateScreen() {
     <Screen maxWidth={820}>
       <ScreenHeader title="Collaborate" icon="add" iconLabel="New project" />
       <View style={styles.card}>
-        <Still name="dusk" ratio={2.39} />
+        <Still name="dusk" ratio={2.39} position="top" />
         <View style={styles.body}>
           <View style={{ gap: 4 }}>
             <Text variant="label">{project.kind}</Text>
