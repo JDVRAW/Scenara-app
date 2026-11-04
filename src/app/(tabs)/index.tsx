@@ -4,20 +4,22 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Avatar, Badge, Button, Screen, SectionHeader, Still, Tag, Text, VerifiedMark } from '@/components';
 import { me } from '@/data/mock';
+import { useLayout } from '@/hooks/useLayout';
 import { colors, spacing } from '@/theme/tokens';
 
 /** Showcase · professional portfolio */
 export default function ShowcaseScreen() {
   const insets = useSafeAreaInsets();
+  const { wide } = useLayout();
   return (
     <Screen edgeToEdgeTop>
-      <Still name="ember" style={[styles.cover, { height: 220 + insets.top }]}>
+      <Still name="ember" style={[styles.cover, { height: (wide ? 360 : 220) + insets.top }, wide && { marginHorizontal: 0, borderBottomLeftRadius: 14, borderBottomRightRadius: 14 }]}>
         <View style={styles.letterbox} />
         <Text variant="data" style={styles.timecode}>{me.timecode}</Text>
         <View style={[styles.letterbox, styles.letterboxBottom]} />
       </Still>
 
-      <View style={styles.profile}>
+      <View style={[styles.profile, wide && { paddingHorizontal: spacing.lg }]}>
         <Avatar still={me.still} size={84} ring />
         <View>
           <View style={styles.nameRow}>
@@ -26,7 +28,7 @@ export default function ShowcaseScreen() {
           </View>
           <Text variant="body" tone="secondary">{me.role} · {me.city}</Text>
         </View>
-        <View style={styles.actions}>
+        <View style={[styles.actions, wide && { maxWidth: 360 }]}>
           <Button label="Connect" doneLabel="Connected" style={{ flex: 1 }} />
           <Button label="Message" variant="ghost" />
         </View>
@@ -50,6 +52,8 @@ export default function ShowcaseScreen() {
         </View>
       </View>
 
+      <View style={[styles.cols, wide && styles.colsWide]}>
+      <View style={[styles.col, wide && styles.colWide]}>
       <SectionHeader title="Credits" />
       <View>
         {me.credits.map((c) => (
@@ -64,9 +68,13 @@ export default function ShowcaseScreen() {
         ))}
       </View>
 
+      </View>
+      <View style={[styles.col, wide && styles.colWide, wide && { maxWidth: 360 }]}>
       <SectionHeader title="Gear" />
       <View style={styles.kit}>
         {me.kit.map((k) => <Tag key={k} label={k} />)}
+      </View>
+      </View>
       </View>
     </Screen>
   );
@@ -89,6 +97,10 @@ function ReelItem({ title, meta, still, ratio, play }: (typeof me.reel)[number] 
 }
 
 const styles = StyleSheet.create({
+  cols: { gap: 22 },
+  colsWide: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.xxl },
+  col: { gap: 12, minWidth: 0 },
+  colWide: { flex: 1 },
   cover: { marginHorizontal: -spacing.lg, marginTop: -spacing.xs, justifyContent: 'flex-end' },
   letterbox: { position: 'absolute', top: 0, left: 0, right: 0, height: 26, backgroundColor: '#000' },
   letterboxBottom: { top: undefined, bottom: 0 },

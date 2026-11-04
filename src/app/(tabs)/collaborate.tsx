@@ -10,7 +10,7 @@ export default function CollaborateScreen() {
   const total = project.roles.length;
 
   return (
-    <Screen>
+    <Screen maxWidth={820}>
       <ScreenHeader title="Collaborate" icon="add" iconLabel="New project" />
       <View style={styles.card}>
         <Still name="dusk" ratio={2.39} />

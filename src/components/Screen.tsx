@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { useLayout } from '@/hooks/useLayout';
 import { colors, spacing } from '@/theme/tokens';
 
 import { Text } from './Text';
@@ -10,10 +11,13 @@ import { Text } from './Text';
 type IconName = keyof typeof Ionicons.glyphMap;
 
 /** Container for every tab: Onyx background, safe area and scroll. */
-export function Screen({ children, edgeToEdgeTop }: { children: ReactNode; edgeToEdgeTop?: boolean }) {
+export function Screen({ children, edgeToEdgeTop, maxWidth = 1120 }: { children: ReactNode; edgeToEdgeTop?: boolean; maxWidth?: number }) {
+  const { wide } = useLayout();
   return (
     <SafeAreaView style={styles.safe} edges={edgeToEdgeTop ? [] : ['top']}>
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={[styles.content, wide && { maxWidth, paddingTop: edgeToEdgeTop ? 0 : spacing.xl, gap: 28 }]}
+        showsVerticalScrollIndicator={false}>
         {children}
       </ScrollView>
     </SafeAreaView>

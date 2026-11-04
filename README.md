@@ -1,12 +1,13 @@
 # SCENARA
 
-The creative network for visual storytellers. React Native app built with Expo (iOS, Android and web).
+The creative network for visual storytellers. Web app built with Expo + React Native Web. The same code can ship to iOS and Android later.
 
 ## Getting started
 
 ```bash
 npm install
-npx expo start        # open in Expo Go, an iOS/Android simulator, or the browser (press w)
+npm run web                 # dev server in the browser
+npx expo export -p web      # static build in dist/, deployable to any static host
 ```
 
 ## Structure
@@ -15,6 +16,7 @@ npx expo start        # open in Expo Go, an iOS/Android simulator, or the browse
 src/
   theme/tokens.ts     Brand direction v1.0: palette, color roles, type, spacing, radii
   components/         Base pieces: Text, Button, Chips, Still, Avatar, Badge, Screen
+  hooks/useLayout.ts  Breakpoints: phone layout below 900px, desktop sidebar above
   data/mock.ts        Sample data (replace with the API)
   app/
     _layout.tsx       Inter font loading and dark theme
