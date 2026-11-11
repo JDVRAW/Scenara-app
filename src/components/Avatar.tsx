@@ -4,7 +4,19 @@ import { colors, StillName } from '@/theme/tokens';
 
 import { Still } from './Still';
 
-export function Avatar({ still, size = 44, ring }: { still: StillName; size?: number; ring?: boolean }) {
+const fallbacks: StillName[] = ['skin', 'velvet', 'fog', 'steel', 'jungle', 'crimson', 'dusk', 'ember'];
+
+/** Picks a stable placeholder still from any id so people without a photo still look distinct. */
+export function stillFor(id: string | null | undefined): StillName {
+  if (!id) return 'skin';
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
+  return fallbacks[h % fallbacks.length];
+}
+
+type Props = { uri?: string | null; id?: string | null; still?: StillName; size?: number; ring?: boolean };
+
+export function Avatar({ uri, id, still, size = 44, ring }: Props) {
   return (
     <View
       style={[
@@ -12,7 +24,7 @@ export function Avatar({ still, size = 44, ring }: { still: StillName; size?: nu
         styles.wrap,
         ring && { borderColor: colors.accent, borderWidth: 2 },
       ]}>
-      <Still name={still} style={StyleSheet.absoluteFill} />
+      <Still name={still ?? stillFor(id)} uri={uri} style={StyleSheet.absoluteFill} />
     </View>
   );
 }

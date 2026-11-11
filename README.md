@@ -35,3 +35,11 @@ src/
 - Sand (`colors.accent`) is reserved for the primary action, the active state and recognition. At most once per screen.
 - Headlines use `variant="title1" | "title2" | "display"` (SF Pro Display on iOS, Inter elsewhere). UI and body text use Inter.
 - `Still` is a gradient film-still placeholder. Once real photography exists, swap it for `expo-image` inside the same container.
+
+## Backend (Supabase)
+
+1. Create a Supabase project.
+2. SQL Editor → New query → paste `supabase/schema.sql` → Run (safe to re-run).
+3. Put the Project URL and the **anon public** key in `src/lib/config.ts`
+   (or `EXPO_PUBLIC_SUPABASE_URL` / `EXPO_PUBLIC_SUPABASE_ANON_KEY`). Never ship the service_role key.
+4. Optional for testing: Authentication → Providers → Email → turn off "Confirm email".

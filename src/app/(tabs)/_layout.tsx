@@ -1,8 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
+import { Redirect } from 'expo-router';
 import { Tabs } from 'expo-router/js-tabs';
 
 import { NavItem, Sidebar } from '@/components';
+import { Loading } from '@/components';
 import { useLayout } from '@/hooks/useLayout';
+import { useAuth } from '@/lib/auth';
 import { colors, fonts } from '@/theme/tokens';
 
 const tabs: NavItem[] = [
@@ -15,6 +18,9 @@ const tabs: NavItem[] = [
 
 export default function TabsLayout() {
   const { wide } = useLayout();
+  const { ready, session } = useAuth();
+  if (!ready) return <Loading />;
+  if (!session) return <Redirect href="/login" />;
   return (
     <Tabs
       tabBar={wide ? (props) => <Sidebar {...props} items={tabs} /> : undefined}

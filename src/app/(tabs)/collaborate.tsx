@@ -1,72 +1,79 @@
-import { StyleSheet, View } from 'react-native';
+import { router, useFocusEffect } from 'expo-router';
+import { useCallback } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
 
-import { Avatar, Button, Screen, ScreenHeader, Still, Text } from '@/components';
-import { project } from '@/data/mock';
+import { Button, Empty, ErrorText, Loading, Screen, ScreenHeader, SectionHeader, Still, stillFor, Text } from '@/components';
+import { useLayout } from '@/hooks/useLayout';
+import { useAuth } from '@/lib/auth';
+import { listProjects, PHASES } from '@/lib/projects';
+import { useAsync } from '@/lib/useAsync';
 import { colors, radius, spacing } from '@/theme/tokens';
 
 /** Collaborate · build crews */
 export default function CollaborateScreen() {
-  const filled = project.roles.filter((r) => r.who).length;
-  const total = project.roles.length;
+  const { wide } = useLayout();
+  const { userId } = useAuth();
+  const projects = useAsync(listProjects, []);
+  useFocusEffect(useCallback(() => { projects.reload(); }, [projects.reload]));
+
+  const all = projects.data ?? [];
+  const mine = all.filter((p) => p.owner === userId || p.roles.some((r) => r.member === userId));
+  const open = all.filter((p) => !mine.includes(p) && p.roles.some((r) => !r.member));
+
+  const card = (p: (typeof all)[number]) => {
+    const filled = p.roles.filter((r) => r.member).length;
+    return (
+      <Pressable key={p.id} accessibilityRole="link" onPress={() => router.push(`/project/${p.id}`)} style={[styles.card, wide && { width: '48.5%' }]}>
+        <Still name={stillFor(p.id)} uri={p.cover_url} ratio={2.39} position="top" />
+        <View style={styles.body}>
+          <Text variant="label" numberOfLines={1}>{[p.kind, PHASES[p.phase]].filter(Boolean).join(' · ')}</Text>
+          <Text variant="title2" numberOfLines={1}>{p.title}</Text>
+          <Text variant="caption">
+            Crew {filled} of {p.roles.length}
+            {p.dates ? ` · ${p.dates}` : ''}
+            {p.roles.length - filled > 0 ? ` · ${p.roles.length - filled} open ${p.roles.length - filled === 1 ? 'role' : 'roles'}` : ''}
+          </Text>
+          <View style={styles.track}><View style={[styles.fill, { width: `${p.roles.length ? (filled / p.roles.length) * 100 : 0}%` }]} /></View>
+        </View>
+      </Pressable>
+    );
+  };
 
   return (
-    <Screen maxWidth={820}>
-      <ScreenHeader title="Collaborate" icon="add" iconLabel="New project" />
-      <View style={styles.card}>
-        <Still name="dusk" ratio={2.39} position="top" />
-        <View style={styles.body}>
-          <View style={{ gap: 4 }}>
-            <Text variant="label">{project.kind}</Text>
-            <Text variant="title2">{project.title}</Text>
-          </View>
-
-          <View style={styles.phases}>
-            {project.phases.map((p, i) => {
-              const on = i <= project.currentPhase;
-              return (
-                <View key={p} style={[styles.phase, on && styles.phaseOn]}>
-                  <Text variant="label" tone={on ? 'primary' : 'secondary'} style={{ fontSize: 9, letterSpacing: 1 }}>{p}</Text>
-                </View>
-              );
-            })}
-          </View>
-
-          <Text variant="caption">
-            Crew <Text variant="data" style={{ fontSize: 12 }}>{filled} of {total}</Text> · {project.dates}
-          </Text>
-          <View style={styles.track}><View style={[styles.fill, { width: `${(filled / total) * 100}%` }]} /></View>
-
-          <View style={{ gap: spacing.xs }}>
-            {project.roles.map((r) => (
-              <View key={r.role} style={[styles.role, !r.who && styles.roleOpen]}>
-                {r.who ? (
-                  <Avatar still={r.who.still} size={28} />
-                ) : (
-                  <View style={styles.slot}><Text tone="accent" style={{ fontSize: 16, lineHeight: 18 }}>+</Text></View>
-                )}
-                <View style={{ flex: 1, minWidth: 0 }}>
-                  <Text variant="callout">{r.role}</Text>
-                  <Text variant="caption" style={{ fontSize: 11 }}>{r.who ? r.who.name : r.note}</Text>
-                </View>
-                {!r.who && <Button label="Invite" doneLabel="Invited" variant="ghost" size="sm" />}
-              </View>
-            ))}
-          </View>
-        </View>
+    <Screen>
+      <View style={styles.head}>
+        <View style={{ flex: 1 }}><ScreenHeader title="Collaborate" /></View>
+        <Button label="New project" variant="gold" size="sm" onPress={() => router.push('/new-project')} />
       </View>
+      {projects.loading && !projects.data ? (
+        <Loading />
+      ) : projects.error ? (
+        <ErrorText>{projects.error}</ErrorText>
+      ) : (
+        <>
+          <SectionHeader title="Your projects" />
+          {mine.length === 0 ? (
+            <Empty title="No projects yet" body="Start a project, list the roles you need, and invite creators to join your crew." action={<Button label="New project" variant="gold" size="sm" onPress={() => router.push('/new-project')} />} />
+          ) : (
+            <View style={styles.grid}>{mine.map(card)}</View>
+          )}
+          <SectionHeader title="Crews looking for people" />
+          {open.length === 0 ? (
+            <Text variant="caption">No open roles right now. Check back soon.</Text>
+          ) : (
+            <View style={styles.grid}>{open.map(card)}</View>
+          )}
+        </>
+      )}
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  card: { borderRadius: radius.md, backgroundColor: colors.surface, overflow: 'hidden' },
-  body: { padding: spacing.md, gap: 14 },
-  phases: { flexDirection: 'row', gap: 4 },
-  phase: { flex: 1, paddingTop: 6, borderTopWidth: 2, borderColor: colors.surfaceRaised },
-  phaseOn: { borderColor: colors.accent },
-  track: { height: 3, borderRadius: 2, backgroundColor: colors.surfaceRaised, overflow: 'hidden' },
+  head: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
+  card: { width: '100%', borderRadius: radius.md, overflow: 'hidden', backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line },
+  body: { padding: spacing.md, gap: 6 },
+  track: { height: 3, borderRadius: 2, backgroundColor: colors.surfaceRaised, overflow: 'hidden', marginTop: 4 },
   fill: { height: '100%', backgroundColor: colors.accent },
-  role: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 10, paddingHorizontal: spacing.sm, borderRadius: radius.sm, borderWidth: 1, borderColor: colors.line },
-  roleOpen: { borderStyle: 'dashed', borderColor: colors.accentBorder },
-  slot: { width: 28, height: 28, borderRadius: 14, borderWidth: 1, borderStyle: 'dashed', borderColor: colors.accent, alignItems: 'center', justifyContent: 'center' },
 });

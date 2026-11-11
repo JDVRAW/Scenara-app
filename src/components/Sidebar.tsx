@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import type { BottomTabBarProps } from 'expo-router/js-tabs';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { me } from '@/data/mock';
+import { useAuth } from '@/lib/auth';
 import { colors, fonts, radius, spacing } from '@/theme/tokens';
 
 import { Avatar } from './Avatar';
@@ -12,6 +12,7 @@ export type NavItem = { name: string; title: string; label: string; icon: keyof 
 
 /** Desktop navigation: replaces the bottom tab bar on wide screens. */
 export function Sidebar({ state, navigateToTab, items }: BottomTabBarProps & { items: NavItem[] }) {
+  const { profile, userId, signOut } = useAuth();
   return (
     <View style={styles.bar}>
       <Text style={styles.wordmark}>SCENARA</Text>
@@ -36,11 +37,14 @@ export function Sidebar({ state, navigateToTab, items }: BottomTabBarProps & { i
         })}
       </View>
       <View style={styles.me}>
-        <Avatar still={me.still} size={36} />
+        <Avatar uri={profile?.avatar_url} id={userId} size={36} />
         <View style={{ flex: 1, minWidth: 0 }}>
-          <Text variant="callout" numberOfLines={1} style={{ fontFamily: fonts.semibold }}>{me.name}</Text>
-          <Text variant="caption" numberOfLines={1}>{me.role}</Text>
+          <Text variant="callout" numberOfLines={1} style={{ fontFamily: fonts.semibold }}>{profile?.name || 'Your profile'}</Text>
+          <Text variant="caption" numberOfLines={1}>{profile?.role || 'Add your craft'}</Text>
         </View>
+        <Pressable accessibilityRole="button" accessibilityLabel="Log out" onPress={signOut} style={{ padding: 6 }}>
+          <Ionicons name="log-out-outline" size={18} color={colors.textSecondary} />
+        </Pressable>
       </View>
     </View>
   );

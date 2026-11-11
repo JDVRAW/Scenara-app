@@ -1,5 +1,11 @@
 {
   "buildCommand": "npx expo export -p web",
   "outputDirectory": "dist",
-  "cleanUrls": true
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/chat/:id", "destination": "/chat/[id]" },
+    { "source": "/creator/:id", "destination": "/creator/[id]" },
+    { "source": "/project/:id", "destination": "/project/[id]" },
+    { "source": "/opportunity/:id", "destination": "/opportunity/[id]" }
+  ]
 }

@@ -1,47 +1,49 @@
-import { useState } from 'react';
-import { Pressable, StyleSheet, ViewStyle } from 'react-native';
+import { ActivityIndicator, Pressable, StyleProp, StyleSheet, ViewStyle } from 'react-native';
 
 import { colors, radius } from '@/theme/tokens';
 
 import { Text } from './Text';
 
-type Variant = 'primary' | 'gold' | 'ghost';
+type Variant = 'primary' | 'gold' | 'ghost' | 'danger';
 
 type Props = {
   label: string;
   variant?: Variant;
   size?: 'md' | 'sm';
-  /** When set, the button toggles to this label on press (Connect → Connected). */
-  doneLabel?: string;
+  /** Shows the settled state (e.g. "Requested ✓") with an outlined gold style. */
+  done?: boolean;
+  loading?: boolean;
+  disabled?: boolean;
   onPress?: () => void;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
 };
 
-export function Button({ label, variant = 'primary', size = 'md', doneLabel, onPress, style }: Props) {
-  const [done, setDone] = useState(false);
-  const isDone = doneLabel != null && done;
-
+export function Button({ label, variant = 'primary', size = 'md', done, loading, disabled, onPress, style }: Props) {
+  const inactive = disabled || loading;
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityState={{ selected: isDone }}
-      onPress={() => {
-        if (doneLabel) setDone((d) => !d);
-        onPress?.();
-      }}
+      accessibilityState={{ disabled: !!inactive, selected: !!done }}
+      disabled={inactive}
+      onPress={onPress}
       style={({ pressed }) => [
         styles.base,
         size === 'sm' && styles.sm,
-        isDone ? styles.done : styles[variant],
+        done ? styles.done : styles[variant],
+        inactive && styles.inactive,
         pressed && styles.pressed,
         style,
       ]}>
-      <Text
-        variant="callout"
-        style={[styles.label, size === 'sm' && styles.labelSm]}
-        tone={isDone ? 'accent' : variant === 'ghost' ? 'primary' : 'onAccent'}>
-        {isDone ? `${doneLabel} ✓` : label}
-      </Text>
+      {loading ? (
+        <ActivityIndicator size="small" color={variant === 'ghost' || done ? colors.textPrimary : colors.onAccent} />
+      ) : (
+        <Text
+          variant="callout"
+          style={[styles.label, size === 'sm' && styles.labelSm]}
+          tone={done ? 'accent' : variant === 'ghost' || variant === 'danger' ? 'primary' : 'onAccent'}>
+          {done ? `${label} ✓` : label}
+        </Text>
+      )}
     </Pressable>
   );
 }
@@ -52,7 +54,9 @@ const styles = StyleSheet.create({
   primary: { backgroundColor: colors.textPrimary },
   gold: { backgroundColor: colors.accent },
   ghost: { borderColor: colors.lineStrong },
+  danger: { borderColor: 'rgba(230,110,90,0.5)' },
   done: { borderColor: colors.accent },
+  inactive: { opacity: 0.5 },
   pressed: { opacity: 0.75 },
   label: { fontFamily: 'Inter_600SemiBold' },
   labelSm: { fontSize: 12 },
